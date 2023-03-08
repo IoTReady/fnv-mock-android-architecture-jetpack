@@ -153,5 +153,6 @@
     <string name="failed_edit_qty">Failed to edit the quantity of crate</string>
     <string name="complete_activity">Complete Activity</string>
     <string name="get_crate">Get Crate</string>
+    <string name="title_activity_mock">MockActivity</string>
 
 </resources>
