@@ -13,6 +13,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,33 +21,40 @@ import com.example.fnvMockJetpack.components.ui.theme.FnvMockJetpackTheme
 
 @Composable
 fun SpinnerScreen(
-    itemList: List<String>,
+    spinnerName: String,
+    spinnerList: List<String>,
     selectedItem : String,
     onItemSelected: (selectedItem : String) -> Unit
 )
 {
     var tempSelectedItem=selectedItem;
-    if (tempSelectedItem.isBlank() && itemList.isNotEmpty())
+    if (tempSelectedItem.isBlank() && spinnerList.isNotEmpty())
     {
-        onItemSelected(itemList[0])
-        tempSelectedItem=itemList[0]
+        onItemSelected(spinnerList[0])
+        tempSelectedItem=spinnerList[0]
     }
     var expanded by rememberSaveable() { mutableStateOf(false) }
+
     OutlinedButton(onClick = { expanded=true },
         modifier = Modifier
             .background(Color.White)
             .widthIn(min = 60.dp),
-        enabled=itemList.isNotEmpty() ) {
-
-        Text(text = tempSelectedItem,
+        enabled=spinnerList.isNotEmpty() ) {
+        Text(text = spinnerName,
             overflow = TextOverflow.Ellipsis,
             maxLines=1,
             modifier = Modifier.weight(1f,
             ),)
+        Text(text = tempSelectedItem,
+            overflow = TextOverflow.Ellipsis,
+            maxLines=1,
+            fontWeight = FontWeight.SemiBold,
+            modifier = Modifier.weight(.5f,
+            ),)
     }
     DropdownMenu(expanded = expanded,
         onDismissRequest = { expanded=false}) {
-        itemList.forEach{
+        spinnerList.forEach{
             DropdownMenuItem(onClick = { expanded=false
                 onItemSelected(it)
             }) {
@@ -64,6 +72,6 @@ fun DefaultPreview2() {
         var selectedName by rememberSaveable() {
             mutableStateOf("")
         }
-        SpinnerScreen(itemList=names, selectedItem =selectedName) { selectedName = it }
+        SpinnerScreen("Warehouse", spinnerList=names, selectedItem =selectedName) { selectedName = it }
     }
 }

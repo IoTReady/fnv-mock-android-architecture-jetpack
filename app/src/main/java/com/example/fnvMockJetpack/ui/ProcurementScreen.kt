@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,15 +30,19 @@ class ProcurementScreen : ComponentActivity() {
                     // TODO: setting the data in the ui, probably have to change
                     val supplierList = listOf("Supplier 1", "Supplier 2", "Supplier 3")
                     val skuList = listOf("SKU 1", "SKU 2", "SKU 3")
-
-                    var selectedName by rememberSaveable() {
-                        mutableStateOf("")
-                    }
-                    SpinnerScreen(itemList = supplierList, selectedItem = selectedName) {
-                        selectedName = it
-                    }
-                    SpinnerScreen(itemList = skuList, selectedItem = selectedName) {
-                        selectedName = it
+                    Column() {
+                        var selectedSupplier by rememberSaveable() {
+                            mutableStateOf("")
+                        }
+                        SpinnerScreen(spinnerName = "Supplier", spinnerList = supplierList, selectedItem = selectedSupplier) {
+                            selectedSupplier = it
+                        }
+                        var selectedSKU by rememberSaveable() {
+                            mutableStateOf("")
+                        }
+                        SpinnerScreen(spinnerName = "SKU", spinnerList = skuList, selectedItem = selectedSKU) {
+                            selectedSKU = it
+                        }
                     }
                 }
             }
@@ -59,13 +62,13 @@ fun DefaultPreview() {
             var selectedSupplier by rememberSaveable() {
                 mutableStateOf("")
             }
-            SpinnerScreen(itemList = supplierList, selectedItem = selectedSupplier) {
+            SpinnerScreen(spinnerName = "Supplier", spinnerList = supplierList, selectedItem = selectedSupplier) {
                 selectedSupplier = it
             }
             var selectedSKU by rememberSaveable() {
                 mutableStateOf("")
             }
-            SpinnerScreen(itemList = skuList, selectedItem = selectedSKU) {
+            SpinnerScreen(spinnerName = "SKU", spinnerList = skuList, selectedItem = selectedSKU) {
                 selectedSKU = it
             }
         }
