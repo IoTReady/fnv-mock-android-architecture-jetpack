@@ -1,12 +1,11 @@
 package com.example.fnvMockJetpack.ui
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,8 +46,10 @@ fun TransferOutScreen() {
                     Text(text = "Scan", fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
                     Switch(checked = checkedState, onCheckedChange = {checkedState = it})
                 }
+                var cratebuttonClicked by remember { mutableStateOf(false) }
+
                 Button(
-                    onClick = { },
+                    onClick = { cratebuttonClicked=true},
                     colors = ButtonDefaults.buttonColors(Color.Black),
                     shape = RectangleShape,
                     modifier = Modifier
@@ -56,6 +57,16 @@ fun TransferOutScreen() {
                 ) {
                     Text(text = "Get Crate")
                 }
+                if (cratebuttonClicked)
+                {
+                    Log.d("TAG", "indie: ")
+                    Recycleviewcomponent(item = selectedWarehouse, modifier = Modifier
+                        .fillMaxSize()
+                        .padding(0.dp, 10.dp)
+                        .background(Color.Black))
+
+                }
+
             }
         }
     }
