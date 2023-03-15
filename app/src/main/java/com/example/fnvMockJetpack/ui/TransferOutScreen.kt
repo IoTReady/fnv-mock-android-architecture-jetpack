@@ -13,18 +13,22 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fnvMockJetpack.ViewModels.TransferOutViewModel
 import com.example.fnvMockJetpack.components.SpinnerScreen
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 
 @Composable
 fun TransferOutScreen() {
+    val viewModel: TransferOutViewModel = viewModel()
+    viewModel.loadData()
     FnvMockJetpackTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            val warehouseList = listOf("Warehouse 1", "Warehouse 2", "Warehouse 3")
-            var selectedWarehouse by rememberSaveable() { mutableStateOf("") }
+           // val warehouseList = listOf("Warehouse 1", "Warehouse 2", "Warehouse 3")
+          //  var selectedWarehouse by rememberSaveable() { mutableStateOf("") }
             var checkedState by rememberSaveable() { mutableStateOf(false)}
             Column(
                 modifier = Modifier
@@ -32,9 +36,9 @@ fun TransferOutScreen() {
             ) {
                 SpinnerScreen(
                     spinnerName = "Select Destination",
-                    spinnerList = warehouseList,
-                    selectedItem = selectedWarehouse,
-                    onItemSelected = { selectedWarehouse = it }
+                    spinnerList = viewModel.warehouseList.value,
+                    selectedItem = viewModel.selectedWarehouse.value,
+                    onItemSelected = { viewModel.onWarehouseSelected(it) }
                 )
                 Row(
                     modifier = Modifier
@@ -60,7 +64,7 @@ fun TransferOutScreen() {
                 if (cratebuttonClicked)
                 {
                     Log.d("TAG", "indie: ")
-                    Recycleviewcomponent(item = selectedWarehouse, modifier = Modifier
+                    Recycleviewcomponent(item = viewModel.selectedWarehouse.value, modifier = Modifier
                         .fillMaxSize()
                         .padding(0.dp, 10.dp)
                         .background(Color.Black))
