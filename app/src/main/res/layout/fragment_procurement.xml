@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_procurement_id"
-    tools:context=".Fragments.ProcurementFragment">
+    tools:context=".ui.ProcurementFragment">
 
     <ScrollView
         tools:context=".Fragment.ProcurementFragment"

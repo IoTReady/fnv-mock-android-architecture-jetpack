@@ -1,7 +1,6 @@
-package com.example.fnvMockJetpack.Fragments
+package com.example.fnvMockJetpack.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,14 +12,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import com.example.fnvMockJetpack.Adapters.RecyclerViewAdapter
 import com.example.fnvMockJetpack.GenerateCrateID
 import com.example.fnvMockJetpack.ViewModels.ProcurementFragmentViewModel

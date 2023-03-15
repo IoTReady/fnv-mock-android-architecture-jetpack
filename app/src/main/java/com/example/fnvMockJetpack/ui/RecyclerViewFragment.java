@@ -1,4 +1,4 @@
-package com.example.fnvMockJetpack.Fragments;
+package com.example.fnvMockJetpack.ui;
 
 import android.os.Bundle;
 import android.util.Log;
