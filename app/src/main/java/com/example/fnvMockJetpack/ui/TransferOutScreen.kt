@@ -1,8 +1,5 @@
 package com.example.fnvMockJetpack.ui
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -19,19 +16,45 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fnvMockJetpack.components.SpinnerScreen
 import com.example.fnvMockJetpack.ui.ui.theme.FnvMockJetpackTheme
-import java.time.format.TextStyle
 
-class TransferOutScreen : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            FnvMockJetpackTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+@Composable
+fun TransferOutScreen() {
+    FnvMockJetpackTheme {
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            val warehouseList = listOf("Warehouse 1", "Warehouse 2", "Warehouse 3")
+            var selectedWarehouse by rememberSaveable() { mutableStateOf("") }
+            var checkedState by rememberSaveable() { mutableStateOf(false)}
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                SpinnerScreen(
+                    spinnerName = "Select Destination",
+                    spinnerList = warehouseList,
+                    selectedItem = selectedWarehouse,
+                    onItemSelected = { selectedWarehouse = it }
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
                 ) {
-
+                    Text(text = "Scan", fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+                    Switch(checked = checkedState, onCheckedChange = {checkedState = it})
+                }
+                Button(
+                    onClick = { },
+                    colors = ButtonDefaults.buttonColors(Color.Black),
+                    shape = RectangleShape,
+                    modifier = Modifier
+                        .padding(16.dp)
+                ) {
+                    Text(text = "Get Crate")
                 }
             }
         }
@@ -41,39 +64,5 @@ class TransferOutScreen : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview3() {
-    FnvMockJetpackTheme {
-        val warehouseList = listOf("Warehouse 1", "Warehouse 2", "Warehouse 3")
-        var selectedWarehouse by rememberSaveable() { mutableStateOf("") }
-        var checkedState by rememberSaveable() { mutableStateOf(false)}
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            SpinnerScreen(
-                spinnerName = "Select Destination",
-                spinnerList = warehouseList,
-                selectedItem = selectedWarehouse,
-                onItemSelected = { selectedWarehouse = it }
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(text = "Scan", fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-                Switch(checked = checkedState, onCheckedChange = {checkedState = it})
-            }
-            Button(
-                onClick = { },
-                colors = ButtonDefaults.buttonColors(Color.Black),
-                shape = RectangleShape,
-                modifier = Modifier
-                    .padding(16.dp)
-            ) {
-                Text(text = "Get Crate")
-            }
-        }
-    }
+    TransferOutScreen()
 }

@@ -12,28 +12,10 @@
         android:theme="@style/Theme.FnvTrail"
         tools:targetApi="31">
         <activity
-            android:name=".TransferOutScreen"
-            android:exported="false"
-            android:label="@string/title_activity_transfer_out_screen"
-            android:theme="@style/Theme.FnvTrail" />
-        <activity
-            android:name=".ProcurementScreen"
-            android:exported="false"
-            android:label="@string/title_activity_procurement_screen"
-            android:theme="@style/Theme.FnvTrail" />
-        <activity
-            android:name=".SpinnerScreen"
-            android:exported="false"
-            android:label="@string/title_activity_spinner_screen"
-            android:theme="@style/Theme.FnvTrail" />
-        <activity
-            android:name=".RecyclerViewScreen"
-            android:exported="false"
-            android:label="@string/title_activity_recycler_view_screen"
-            android:theme="@style/Theme.FnvTrail" />
-        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/title_activity_main"
+            android:theme="@style/Theme.FnvTrail">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,5 +23,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
