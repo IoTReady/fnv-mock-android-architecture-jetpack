@@ -12,6 +12,11 @@
         android:theme="@style/Theme.FnvTrail"
         tools:targetApi="31">
         <activity
+            android:name=".TransferOutScreen"
+            android:exported="false"
+            android:label="@string/title_activity_transfer_out_screen"
+            android:theme="@style/Theme.FnvTrail" />
+        <activity
             android:name=".ProcurementScreen"
             android:exported="false"
             android:label="@string/title_activity_procurement_screen"
