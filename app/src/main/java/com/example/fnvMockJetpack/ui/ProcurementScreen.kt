@@ -54,7 +54,7 @@ fun ProcurementScreen() {
                 var completebuttonClicked by remember { mutableStateOf(false) }
 
                 Button(
-                    onClick = { completebuttonClicked=true},
+                    onClick = {viewModel.onCompleteButtonClicked()},
                     colors = ButtonDefaults.buttonColors(Color.Black),
                     shape = RectangleShape,
                     modifier = Modifier
@@ -62,7 +62,7 @@ fun ProcurementScreen() {
                 ) {
                     Text(text = "Complete Activity")
                 }
-                if (completebuttonClicked)
+                if (viewModel.completebuttonClicked.value)
                 {
                     Log.d("TAG", "indie: ")
                     Recycleviewcomponent(item = viewModel.selectedSupplier.value, item1 = viewModel.selectedSku.value, modifier = Modifier

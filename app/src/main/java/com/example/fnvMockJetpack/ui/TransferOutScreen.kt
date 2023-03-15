@@ -53,7 +53,7 @@ fun TransferOutScreen() {
                 var cratebuttonClicked by remember { mutableStateOf(false) }
 
                 Button(
-                    onClick = { cratebuttonClicked=true},
+                    onClick = { viewModel.onCrateButtonClicked()},
                     colors = ButtonDefaults.buttonColors(Color.Black),
                     shape = RectangleShape,
                     modifier = Modifier
@@ -61,7 +61,7 @@ fun TransferOutScreen() {
                 ) {
                     Text(text = "Get Crate")
                 }
-                if (cratebuttonClicked)
+                if (viewModel.cratebuttonClicked.value)
                 {
                     Log.d("TAG", "indie: ")
                     Recycleviewcomponent(item = viewModel.selectedWarehouse.value, modifier = Modifier
@@ -71,6 +71,7 @@ fun TransferOutScreen() {
 
 
                 }
+               // viewModel.onCrateListDisplayed()
 
             }
         }
