@@ -154,5 +154,6 @@
     <string name="complete_activity">Complete Activity</string>
     <string name="get_crate">Get Crate</string>
     <string name="title_activity_mock">MockActivity</string>
+    <string name="title_activity_recycler_view_screen">RecyclerViewScreen</string>
 
 </resources>
