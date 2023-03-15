@@ -1,8 +1,6 @@
 package com.example.fnvMockJetpack.components
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.OutlinedButton
@@ -46,37 +44,46 @@ fun SpinnerScreen(
             fontWeight = FontWeight.Bold
         )
 
-        OutlinedButton(
-            onClick = { expanded = true },
-            enabled = spinnerList.isNotEmpty(),
+        Box(
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 8.dp)
         ) {
-            Text(
-                text = tempSelectedItem,
-                maxLines = 1,
-                fontWeight = FontWeight.SemiBold
-            )
-        }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false }
-        ) {
-            spinnerList.forEach { item ->
-                DropdownMenuItem(
-                    onClick = {
-                        expanded = false
-                        onItemSelected(item)
-                        tempSelectedItem = item
-                    }
+            OutlinedButton(
+                onClick = { expanded = true },
+                enabled = spinnerList.isNotEmpty()
+            ) {
+                Text(
+                    text = tempSelectedItem,
+                    maxLines = 1,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .width(IntrinsicSize.Max)
+                    .offset(y = 40.dp)
+            ) {
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
                 ) {
-                    Text(text = item)
+                    spinnerList.forEach { item ->
+                        DropdownMenuItem(
+                            onClick = {
+                                expanded = false
+                                onItemSelected(item)
+                                tempSelectedItem = item
+                            }
+                        ) {
+                            Text(text = item)
+                        }
+                    }
                 }
             }
         }
     }
+
 }
 
 @Preview(showBackground = true, showSystemUi = false)
