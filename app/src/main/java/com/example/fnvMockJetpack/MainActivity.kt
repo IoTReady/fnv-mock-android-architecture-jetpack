@@ -29,6 +29,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.fnvMockJetpack.ui.ProcurementScreen
 import com.example.fnvMockJetpack.ui.TransferOutScreen
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
+import com.example.fnvMockJetpack.utils.Constants
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
