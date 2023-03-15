@@ -155,5 +155,7 @@
     <string name="get_crate">Get Crate</string>
     <string name="title_activity_mock">MockActivity</string>
     <string name="title_activity_recycler_view_screen">RecyclerViewScreen</string>
+    <string name="title_activity_spinner_screen">SpinnerScreen</string>
+    <string name="title_activity_procurement_screen">ProcurementScreen</string>
 
 </resources>

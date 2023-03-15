@@ -39,21 +39,21 @@ class RecyclerViewFragment : Fragment() {
                     modifier = Modifier.fillMaxWidth().padding(4.dp)
                 ) {
                     val items = mutableListOf<String>()
-                    val selectedSupplierState = procurementFragmentViewModel.selectedSupplier.collectAsState()
-                    val selectedSKUState = procurementFragmentViewModel.selectedSKU.collectAsState()
-                    val selectedWarehouseState = transferOutFragmentViewModel.selectedWarehouse.collectAsState()
-
-                    when {
-                        selectedSupplierState.value != null && selectedSKUState.value != null -> {
-                            items.add(selectedSupplierState.value!!)
-                            items.add(selectedSKUState.value!!)
-                            generateCrateIDList(items)
-                        }
-                        selectedWarehouseState.value != null -> {
-                            items.add(selectedWarehouseState.value!!)
-                            generateCrateIDList(items)
-                        }
-                    }
+//                    val selectedSupplierState = procurementFragmentViewModel.selectedSupplier.collectAsState()
+//                    val selectedSKUState = procurementFragmentViewModel.selectedSKU.collectAsState()
+//                    val selectedWarehouseState = transferOutFragmentViewModel.selectedWarehouse.collectAsState()
+//
+//                    when {
+//                        selectedSupplierState.value != null && selectedSKUState.value != null -> {
+//                            items.add(selectedSupplierState.value!!)
+//                            items.add(selectedSKUState.value!!)
+//                            generateCrateIDList(items)
+//                        }
+//                        selectedWarehouseState.value != null -> {
+//                            items.add(selectedWarehouseState.value!!)
+//                            generateCrateIDList(items)
+//                        }
+//                    }
 
                     LazyColumn(
                         modifier = Modifier
