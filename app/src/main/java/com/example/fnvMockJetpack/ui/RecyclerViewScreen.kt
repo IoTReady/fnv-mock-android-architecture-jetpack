@@ -16,7 +16,7 @@ import java.util.*
 @Composable
 fun Recycleviewcomponent(item : String ,modifier: Modifier) {
     val itemsList1 = (0..5).toList()
-    val itemsIndexedList = listOf(item, item, item)
+
 
     LazyColumn(modifier = Modifier
         .height(200.dp)
@@ -29,5 +29,24 @@ fun Recycleviewcomponent(item : String ,modifier: Modifier) {
 
     }
 }
+
+@Composable
+fun Recycleviewcomponent(item : String ,item1 : String ,modifier: Modifier) {
+    val itemsList1 = (0..5).toList()
+
+
+    LazyColumn(modifier = Modifier
+        .height(200.dp)
+        .padding(0.dp, 20.dp)) {
+        items(itemsList1) {
+            Text("crate "+ UUID.randomUUID().toString().substring(0,5)
+                    + " in $item"+" and "+item1,modifier.background(Color.White), color = Color.Black)
+        }
+
+
+    }
+}
+
+
 
 

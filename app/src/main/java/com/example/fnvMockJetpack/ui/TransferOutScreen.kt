@@ -65,6 +65,7 @@ fun TransferOutScreen() {
                         .padding(0.dp, 10.dp)
                         .background(Color.Black))
 
+
                 }
 
             }
