@@ -27,7 +27,7 @@ fun TopAppBarScreen(content: @Composable() () -> Unit){
         },
 
         content = {
-            Box(modifier = Modifier.padding(56.dp)) {
+            Box(modifier = Modifier.padding(top=56.dp)) {
                 content()
             }
         }
