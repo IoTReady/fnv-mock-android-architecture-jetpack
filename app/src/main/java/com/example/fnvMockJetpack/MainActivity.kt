@@ -27,6 +27,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.fnvMockJetpack.ui.ProcurementScreen
+import com.example.fnvMockJetpack.ui.TopAppBarScreen
 import com.example.fnvMockJetpack.ui.TransferOutScreen
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 import com.example.fnvMockJetpack.utils.Constants
@@ -69,10 +70,14 @@ fun NavHostContainer(
 
         builder = {
             composable("TransferOut") {
-                TransferOutScreen()
+                TopAppBarScreen() {
+                    TransferOutScreen()
+                }
             }
             composable("Procurement") {
-                ProcurementScreen()
+                TopAppBarScreen() {
+                    ProcurementScreen()
+                }
             }
         })
 }
