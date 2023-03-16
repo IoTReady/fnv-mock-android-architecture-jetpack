@@ -21,7 +21,9 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -85,7 +87,8 @@ fun NavHostContainer(
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     BottomNavigation(
-        backgroundColor = Color(0xFF030B38)
+        backgroundColor = Color.Black,
+        contentColor = Color.White
     ) {
         // observe the backstack
         val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -108,9 +111,14 @@ fun BottomNavigationBar(navController: NavHostController) {
                 },
                 // label
                 label = {
-                    Text(text = navItem.label)
+                    val labelColor = if (currentRoute == navItem.route) {
+                        Color.White.copy(alpha = 1f)
+                    } else {
+                        Color.White.copy(alpha = 0.5f)
+                    }
+                    Text(text = navItem.label, color = labelColor)
                 },
-                alwaysShowLabel = false
+                alwaysShowLabel = true
             )
         }
     }
