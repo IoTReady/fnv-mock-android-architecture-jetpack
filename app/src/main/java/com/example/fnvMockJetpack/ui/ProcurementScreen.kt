@@ -1,23 +1,23 @@
 package com.example.fnvMockJetpack.ui
 
 import android.content.Intent
-import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fnvMockJetpack.QRCodeScannerActivity
 import com.example.fnvMockJetpack.ViewModels.ProcurementViewmodel
-import com.example.fnvMockJetpack.ViewModels.TransferOutViewModel
+import com.example.fnvMockJetpack.components.SearchBarFilter
 import com.example.fnvMockJetpack.components.SpinnerScreen
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 @Composable
@@ -27,17 +27,10 @@ fun ProcurementScreen() {
     viewModel.loadsku()
     FnvMockJetpackTheme {
         FnvMockJetpackTheme {
-            // A surface container using the 'background' color from the theme
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                /*   val supplierList = listOf("Supplier 1", "Supplier 2", "Supplier 3")
-            val skuList = listOf("SKU 1", "SKU 2", "SKU 3")*/
-
-                var selectedSupplier by rememberSaveable() { mutableStateOf("") }
-                var selectedSKU by rememberSaveable() { mutableStateOf("") }
-
                 Column(modifier = Modifier.padding(16.dp)) {
                     SpinnerScreen(
                         spinnerName = "Supplier",
@@ -46,13 +39,45 @@ fun ProcurementScreen() {
                         onItemSelected = { viewModel.onsupplierselected(it) }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    SpinnerScreen(
-                        spinnerName = "SKU",
-                        spinnerList = viewModel.Skulist.value,
-                        selectedItem = viewModel.selectedSku.value,
-                        onItemSelected = { viewModel.onskuselected(it) }
-                    )
-                    var completebuttonClicked by remember { mutableStateOf(false) }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier.weight(1f),
+                            text = "Spinner",
+                            textAlign = TextAlign.Center,
+                            fontWeight = FontWeight.Bold
+                        )
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(start = 8.dp)
+                        ) {
+                            var searchClicked by remember { mutableStateOf(false) }
+                            IconButton(
+                                onClick = { searchClicked = !searchClicked },
+                                modifier = Modifier.size(48.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = "Search"
+                                )
+                            }
+                            if (searchClicked) {
+                                var selectedItem by remember { mutableStateOf("") }
+                                SearchBarFilter(
+                                    items = listOf("Supplier 1", "Supplier 2", "Supplier 3"),
+                                    onItemSelected = {
+                                        selectedItem = it
+                                        searchClicked = false
+                                    }
+                                )
+                            }
+                        }
+                    }
 
                     Button(
                         onClick = { viewModel.onCompleteButtonClicked() },

@@ -1,7 +1,5 @@
 package com.example.fnvMockJetpack.components
 
-import android.content.ContentValues
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -12,12 +10,8 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-/*
-val items = listOf("Item 1", "Item 2", "Item 3")
-var selectedItem by remember { mutableStateOf("") }
-SearchableDropDownMenu(items){
-    selectedItem->
-    Log.d(ContentValues.TAG, "SupplierSummaryScreen: "+selectedItem)*/
+
+
 @Composable
 fun SearchBarFilter(   items: List<String>,
                        onItemSelected: (String) -> Unit
