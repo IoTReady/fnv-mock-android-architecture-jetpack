@@ -1,5 +1,6 @@
 package com.example.fnvMockJetpack.ui
 
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,9 +10,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fnvMockJetpack.QRCodeScannerActivity
 import com.example.fnvMockJetpack.ViewModels.ProcurementViewmodel
 import com.example.fnvMockJetpack.ViewModels.TransferOutViewModel
 import com.example.fnvMockJetpack.components.SpinnerScreen
@@ -22,65 +26,63 @@ fun ProcurementScreen() {
     viewModel.loadsupplier()
     viewModel.loadsku()
     FnvMockJetpackTheme {
-    FnvMockJetpackTheme {
-        // A surface container using the 'background' color from the theme
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
-        ) {
-         /*   val supplierList = listOf("Supplier 1", "Supplier 2", "Supplier 3")
+        FnvMockJetpackTheme {
+            // A surface container using the 'background' color from the theme
+            Surface(
+                modifier = Modifier.fillMaxSize(),
+                color = MaterialTheme.colorScheme.background
+            ) {
+                /*   val supplierList = listOf("Supplier 1", "Supplier 2", "Supplier 3")
             val skuList = listOf("SKU 1", "SKU 2", "SKU 3")*/
 
-            var selectedSupplier by rememberSaveable() { mutableStateOf("") }
-            var selectedSKU by rememberSaveable() { mutableStateOf("") }
+                var selectedSupplier by rememberSaveable() { mutableStateOf("") }
+                var selectedSKU by rememberSaveable() { mutableStateOf("") }
 
-            Column(modifier = Modifier.padding(16.dp)) {
-                SpinnerScreen(
-                    spinnerName = "Supplier",
-                    spinnerList = viewModel.supplierlist.value,
-                    selectedItem = viewModel.selectedSupplier.value,
-                    onItemSelected = { viewModel.onsupplierselected(it) }
+                Column(modifier = Modifier.padding(16.dp)) {
+                    SpinnerScreen(
+                        spinnerName = "Supplier",
+                        spinnerList = viewModel.supplierlist.value,
+                        selectedItem = viewModel.selectedSupplier.value,
+                        onItemSelected = { viewModel.onsupplierselected(it) }
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    SpinnerScreen(
+                        spinnerName = "SKU",
+                        spinnerList = viewModel.Skulist.value,
+                        selectedItem = viewModel.selectedSku.value,
+                        onItemSelected = { viewModel.onskuselected(it) }
+                    )
+                    var completebuttonClicked by remember { mutableStateOf(false) }
 
+                    Button(
+                        onClick = { viewModel.onCompleteButtonClicked() },
+                        colors = ButtonDefaults.buttonColors(Color.Black),
+                        shape = RectangleShape,
+                        modifier = Modifier
+                            .padding(16.dp)
+                    ) {
+                        Text(text = "Scan Item")
+                    }
 
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                SpinnerScreen(
-                    spinnerName = "SKU",
-                    spinnerList = viewModel.Skulist.value,
-                    selectedItem = viewModel.selectedSku.value,
-                    onItemSelected = { viewModel.onskuselected(it) }
-
-                )
-                var completebuttonClicked by remember { mutableStateOf(false) }
-
-                Button(
-                    onClick = {viewModel.onCompleteButtonClicked()},
-                    colors = ButtonDefaults.buttonColors(Color.Black),
-                    shape = RectangleShape,
-                    modifier = Modifier
-                        .padding(16.dp)
-                ) {
-                    Text(text = "Complete Activity")
-                }
-
-                if (viewModel.completebuttonClicked.value)
-                {
-                    Log.d("TAG", "indie: ")
-                    Recycleviewcomponent(item = viewModel.selectedSupplier.value, item1 = viewModel.selectedSku.value, modifier = Modifier
-                        .fillMaxSize()
-                        .padding(0.dp, 10.dp)
-                        .background(Color.Black))
-
-
+                    if (viewModel.completebuttonClicked.value) {
+                        val context = LocalContext.current
+                        context.startActivity(
+                            Intent(
+                                context,
+                                QRCodeScannerActivity::class.java
+                            )
+                        )
+                    }
                 }
             }
         }
     }
-}}
-
+}
+/*
 @Preview(showBackground = true, showSystemUi = false)
 @Composable
 fun ProcurementScreenPreview() {
     ProcurementScreen()
 }
-
+}}
+*/
