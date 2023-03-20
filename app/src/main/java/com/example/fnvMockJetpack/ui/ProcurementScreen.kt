@@ -62,6 +62,7 @@ fun ProcurementScreen() {
                 ) {
                     Text(text = "Complete Activity")
                 }
+
                 if (viewModel.completebuttonClicked.value)
                 {
                     Log.d("TAG", "indie: ")
@@ -76,10 +77,10 @@ fun ProcurementScreen() {
         }
     }
 }}
-/*
+
 @Preview(showBackground = true, showSystemUi = false)
 @Composable
 fun ProcurementScreenPreview() {
     ProcurementScreen()
-}}
-*/
+}
+
