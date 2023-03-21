@@ -68,7 +68,7 @@ fun ProcurementScreen() {
                                 ) {
                                     Text(
                                         modifier = Modifier.weight(1f),
-                                        text = "SKU",
+                                        text = "SKU\n"+selectedItem,
                                         textAlign = TextAlign.Center,
                                         fontWeight = FontWeight.Bold
                                     )
@@ -89,7 +89,7 @@ fun ProcurementScreen() {
                                         }
                                         if (selectedItem.isNotBlank() && itemSelected) {
                                             Text(
-                                                text = selectedItem,
+                                                text = "",
                                                 modifier = Modifier.padding(start = 8.dp)
                                             )
                                         }
