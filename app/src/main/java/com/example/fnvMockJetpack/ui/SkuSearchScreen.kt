@@ -1,20 +1,26 @@
 package com.example.fnvMockJetpack.ui
 
-import androidx.compose.foundation.layout.fillMaxSize
+import android.content.ContentValues.TAG
+import android.util.Log
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.fnvMockJetpack.components.SearchBarFilter
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 
 @Composable
-fun SkuSearchScreen() {
+fun SkuSearchScreen(navController: NavHostController, onItemSelected: (String) -> Unit) {
     var selectedItem by remember { mutableStateOf("") }
     var searchExpanded by remember { mutableStateOf(false) }
     FnvMockJetpackTheme {
         Surface(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxHeight(),
+
             color = MaterialTheme.colorScheme.background
         ) {
             SearchBarFilter(
@@ -22,8 +28,19 @@ fun SkuSearchScreen() {
                 onItemSelected = {
                     selectedItem = it
                     searchExpanded = false
+                    onItemSelected(it) // Pass the selected item back to the ProcurementScreen
+                    Log.d(TAG, "SkuSearchScreen: "+it)
+                    navController.navigate("Pricurement")
                 }
             )
         }
+
     }
 }
+/*
+@Preview
+@Composable
+fun previewsearch()
+{
+    SkuSearchScreen(NavController, "selectedsku")
+}*/

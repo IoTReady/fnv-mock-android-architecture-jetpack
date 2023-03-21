@@ -6,19 +6,29 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+
+import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+
+import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 
 @Composable
 fun SearchFilter(
     searchBarName : String,
     selectedItem : String
 ) {
+    var clickeda by remember { mutableStateOf(false) }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -33,7 +43,7 @@ fun SearchFilter(
             fontWeight = FontWeight.Bold,
         )
         IconButton(
-            onClick = { }, // TODO: pass onclick event
+            onClick = {  }, // TODO: pass onclick event
             modifier = Modifier.size(48.dp)
         ) {
             Icon(
@@ -42,9 +52,11 @@ fun SearchFilter(
             )
         }
     }
+
 }
-@Preview(showBackground = true)
+/*@Preview(showBackground = true)
 @Composable
 fun SearchFilterPreview() {
     SearchFilter("SKU", "SKU 1")
-}
+}*//*
+*/

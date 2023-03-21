@@ -1,10 +1,7 @@
 package com.example.fnvMockJetpack.components
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
@@ -26,7 +23,6 @@ fun SearchBarFilter(   items: List<String>,
     Column(
         modifier = Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
     ) {
         TextField(
             value = searchText,
@@ -50,7 +46,7 @@ fun SearchBarFilter(   items: List<String>,
                             .clickable {
                                 selectedItem = item
                                 onItemSelected(item)
-                                searchText = ""
+                                searchText = item
                             }
                     )
                 }
