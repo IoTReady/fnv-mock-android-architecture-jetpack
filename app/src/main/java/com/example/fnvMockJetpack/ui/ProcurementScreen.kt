@@ -1,6 +1,7 @@
 package com.example.fnvMockJetpack.ui
 
 import android.content.Intent
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -25,13 +26,17 @@ fun ProcurementScreen() {
     val viewModel: ProcurementViewmodel = viewModel()
     viewModel.loadsupplier()
     viewModel.loadsku()
+    var selectedItem by remember { mutableStateOf("") }
+    var searchExpanded by remember { mutableStateOf(false) }
+    var itemSelected by remember { mutableStateOf(false)}
     FnvMockJetpackTheme {
         FnvMockJetpackTheme {
             Surface(
                 modifier = Modifier.fillMaxSize(),
                 color = MaterialTheme.colorScheme.background
             ) {
-                Column(modifier = Modifier.padding(16.dp)) {
+                Column(modifier = Modifier.padding(),
+                horizontalAlignment = Alignment.CenterHorizontally) {
                     SpinnerScreen(
                         spinnerName = "Supplier",
                         spinnerList = viewModel.supplierlist.value,
@@ -39,42 +44,56 @@ fun ProcurementScreen() {
                         onItemSelected = { viewModel.onsupplierselected(it) }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    Row(
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(vertical = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+
                     ) {
-                        Text(
-                            modifier = Modifier.weight(1f),
-                            text = "Spinner",
-                            textAlign = TextAlign.Center,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Box(
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(start = 8.dp)
-                        ) {
-                            var searchClicked by remember { mutableStateOf(false) }
-                            IconButton(
-                                onClick = { searchClicked = !searchClicked },
-                                modifier = Modifier.size(48.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = "Search"
-                                )
-                            }
-                            if (searchClicked) {
-                                var selectedItem by remember { mutableStateOf("") }
+                        Crossfade(targetState = searchExpanded) { expanded ->
+                            if (expanded) {
                                 SearchBarFilter(
-                                    items = listOf("Supplier 1", "Supplier 2", "Supplier 3"),
+                                    items = listOf("SKU 1", "SKU 2", "SKU 3"),
                                     onItemSelected = {
                                         selectedItem = it
-                                        searchClicked = false
+                                        searchExpanded = false
                                     }
                                 )
+                            } else {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Center,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        modifier = Modifier.weight(1f),
+                                        text = "SKU",
+                                        textAlign = TextAlign.Center,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .weight(1f)
+                                            .padding(start = 8.dp)
+                                    ) {
+                                        IconButton(
+                                            onClick = { searchExpanded = true
+                                                      itemSelected = true },
+                                            modifier = Modifier.size(48.dp)
+                                        ) {
+                                            Icon(
+                                                imageVector = Icons.Default.Search,
+                                                contentDescription = "Search",
+                                            )
+                                        }
+                                        if (selectedItem.isNotBlank() && itemSelected) {
+                                            Text(
+                                                text = selectedItem,
+                                                modifier = Modifier.padding(start = 8.dp)
+                                            )
+                                        }
+                                    }
+                                }
                             }
                         }
                     }

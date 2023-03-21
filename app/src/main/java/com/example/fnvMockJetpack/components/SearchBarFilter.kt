@@ -1,13 +1,16 @@
 package com.example.fnvMockJetpack.components
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
@@ -20,7 +23,11 @@ fun SearchBarFilter(   items: List<String>,
     var selectedItem by remember { mutableStateOf("") }
     val filteredItems = items.filter { it.contains(searchText, ignoreCase = true) }
 
-    Column {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
         TextField(
             value = searchText,
             onValueChange = { newText ->
@@ -32,7 +39,9 @@ fun SearchBarFilter(   items: List<String>,
         )
 
         if (searchText.isNotEmpty()) {
-            LazyColumn {
+            LazyColumn(
+                horizontalAlignment = Alignment.Start
+            ) {
                 items(filteredItems) { item ->
                     Text(
                         text = item,
