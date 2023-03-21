@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fnvMockJetpack.ViewModels.TransferOutViewModel
-import com.example.fnvMockJetpack.components.SpinnerScreen
+import com.example.fnvMockJetpack.components.Spinner
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 
 @Composable
@@ -34,7 +34,7 @@ fun TransferOutScreen() {
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                SpinnerScreen(
+                Spinner(
                     spinnerName = "Select Destination",
                     spinnerList = viewModel.warehouseList.value,
                     selectedItem = viewModel.selectedWarehouse.value,
