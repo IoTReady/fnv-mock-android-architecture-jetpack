@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.fnvMockJetpack.QRCodeScannerActivity
@@ -36,7 +37,7 @@ fun ProcurementScreen() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 Column(modifier = Modifier.padding(),
-                horizontalAlignment = Alignment.CenterHorizontally) {
+                    horizontalAlignment = Alignment.CenterHorizontally) {
                     SpinnerScreen(
                         spinnerName = "Supplier",
                         spinnerList = viewModel.supplierlist.value,
@@ -49,7 +50,7 @@ fun ProcurementScreen() {
                             .fillMaxWidth()
                             .padding(vertical = 8.dp),
 
-                    ) {
+                        ) {
                         Crossfade(targetState = searchExpanded) { expanded ->
                             if (expanded) {
                                 SearchBarFilter(
@@ -78,7 +79,7 @@ fun ProcurementScreen() {
                                     ) {
                                         IconButton(
                                             onClick = { searchExpanded = true
-                                                      itemSelected = true },
+                                                itemSelected = true },
                                             modifier = Modifier.size(48.dp)
                                         ) {
                                             Icon(
@@ -122,11 +123,9 @@ fun ProcurementScreen() {
         }
     }
 }
-/*
 @Preview(showBackground = true, showSystemUi = false)
 @Composable
 fun ProcurementScreenPreview() {
     ProcurementScreen()
 }
-}}
-*/
+
