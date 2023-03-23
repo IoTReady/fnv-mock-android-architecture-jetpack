@@ -117,6 +117,7 @@ fun ProcurementScreen() {
                                 QRCodeScannerActivity::class.java
                             )
                         )
+                        viewModel.onCompleteButtonClicked()
                     }
                 }
             }

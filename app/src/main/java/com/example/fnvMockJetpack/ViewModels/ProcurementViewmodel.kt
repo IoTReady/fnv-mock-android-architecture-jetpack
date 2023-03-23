@@ -42,7 +42,7 @@ class ProcurementViewmodel : ViewModel() {
     }
 
     fun onCompleteButtonClicked() {
-        _completebuttonClicked.value = true
+        _completebuttonClicked.value = !_completebuttonClicked.value
     }
 
 
