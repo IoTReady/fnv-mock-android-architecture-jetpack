@@ -36,7 +36,7 @@ fun SkuSearchScreen(
                     searchExpanded = false
                     onItemSelected(it) // Pass the selected item back to the ProcurementScreen
                     Log.d(TAG, "SkuSearchScreen: "+it)
-                    navController.navigate("Pricurement")
+                    navController.navigate("Procurement")
                 }
             )
         }

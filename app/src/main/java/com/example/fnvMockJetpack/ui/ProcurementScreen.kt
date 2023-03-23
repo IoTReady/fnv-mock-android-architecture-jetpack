@@ -1,8 +1,6 @@
 package com.example.fnvMockJetpack.ui
 
-import android.content.ContentValues.TAG
 import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -15,7 +13,6 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -30,18 +27,13 @@ import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 
 @Composable
 fun ProcurementScreen(
-    navController: NavHostController, selectedsku: String, selectedsupplier: String,
+    navController: NavHostController, selectedSku: String, selectedSupplier: String,
 ) {
 
     val viewModel: ProcurementViewmodel = viewModel()
     viewModel.loadsupplier()
     viewModel.loadsku()
-    Log.d(TAG, "selected sku: "+selectedsku)
-    Log.d(TAG, "selected supplier: "+selectedsupplier)
 
-    var selectedItem by remember { mutableStateOf("") }
-    var searchExpanded by remember { mutableStateOf(false) }
-    var itemSelected by remember { mutableStateOf(false) }
     var isSupplierSearch by remember { mutableStateOf(false) }
     var isSkuSearch by remember { mutableStateOf(false) }
     FnvMockJetpackTheme {
@@ -61,14 +53,16 @@ fun ProcurementScreen(
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "Supplier" + "\n" + selectedsupplier,
+                        text = "Supplier\n$selectedSupplier",
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Bold,
                     )
                     IconButton(
-                        onClick = {  navController.navigate("Screen2/supplier")
-                                 isSupplierSearch=true
-                                  isSkuSearch=false}, // TODO: pass onclick event
+                        onClick = {
+                            navController.navigate("Screen2/supplier")
+                            isSupplierSearch=true
+                            isSkuSearch=false
+                                  },
                         modifier = Modifier.size(48.dp)
                     ) {
                         Icon(
@@ -80,8 +74,6 @@ fun ProcurementScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                var clickeda by remember { mutableStateOf(false) }
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -91,13 +83,14 @@ fun ProcurementScreen(
                 ) {
                     Text(
                         modifier = Modifier.weight(1f),
-                        text = "SKU" + "\n" + selectedsku,
+                        text = "SKU\n$selectedSku",
                         textAlign = TextAlign.Start,
                         fontWeight = FontWeight.Bold,
                     )
                     IconButton(
-                        onClick = {  navController.navigate("Screen2/sku")
-                          }, // TODO: pass onclick event
+                        onClick = {
+                            navController.navigate("Screen2/sku")
+                          },
                         modifier = Modifier.size(48.dp)
                     ) {
                         Icon(
@@ -106,12 +99,7 @@ fun ProcurementScreen(
                         )
                     }
                 }
-//
-                /*  if(clickeda)
-                  {
 
-                  }
-  */
                 Button(
                     onClick = { viewModel.onCompleteButtonClicked() },
                     colors = ButtonDefaults.buttonColors(Color.Black),
@@ -121,6 +109,7 @@ fun ProcurementScreen(
                 ) {
                     Text(text = "Scan Item")
                 }
+
                 if (viewModel.completebuttonClicked.value) {
                     val context = LocalContext.current
                     context.startActivity(
@@ -135,41 +124,31 @@ fun ProcurementScreen(
         }
     }
 }
-@Preview(showBackground = true, showSystemUi = false)
-@Composable
-fun ProcurementScreenPreview() {
-  //  ProcurementScreen(navController = NavHostController)
-}
-
 
 @Composable
 fun MyApp() {
-    var selectedsku by remember { mutableStateOf("") }
-    var selectedsupplier by remember { mutableStateOf("") }
+    var selectedSku by remember { mutableStateOf("") }
+    var selectedSupplier by remember { mutableStateOf("") }
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = "Pricurement"
+        startDestination = "Procurement"
     ) {
-        composable("Pricurement") {
-            ProcurementScreen(navController,selectedsku,selectedsupplier)
+        composable("Procurement") {
+            ProcurementScreen(navController, selectedSku, selectedSupplier)
         }
-          composable("Screen2/{arg}",
-                    arguments = listOf(navArgument("arg") { type = NavType.StringType })
-        ) { backStackEntry ->
+
+        composable("Screen2/{arg}", arguments = listOf(navArgument("arg") { type = NavType.StringType }))
+        { backStackEntry ->
               val screen = backStackEntry.arguments?.getString("arg")
               if(screen == "sku"){
                   val items= listOf("sku 1", "sku 2", "sku 3")
-                  SkuSearchScreen(navController = navController, { selectedsku = it }, items)
+                  SkuSearchScreen(navController = navController, { selectedSku = it }, items)
               }
               else {
                   val items= listOf("supplier 1", "supplier 2", "supplier 3")
-                  SkuSearchScreen(navController = navController,{ selectedsupplier = it },items)
+                  SkuSearchScreen(navController = navController,{ selectedSupplier = it },items)
               }
         }
     }
 }
-
-
-
-
