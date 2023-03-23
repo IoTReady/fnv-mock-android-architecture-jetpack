@@ -24,7 +24,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import com.example.fnvMockJetpack.ui.DataEntryScreen
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 @Composable
 fun QRCodeScannerContent() {
@@ -101,12 +100,7 @@ fun QRCodeScannerContent() {
                         modifier = Modifier.fillMaxSize(),
                         color = MaterialTheme.colorScheme.background
                     ) {
-                        DataEntryScreen(
-                            crateId = crateID,
-                            timestamp = "",
-                            supplier = "",
-                            Sku = ""
-                        )
+
                     }
                 }
             }

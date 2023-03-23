@@ -22,6 +22,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.fnvMockJetpack.QRCodeScannerActivity
+import com.example.fnvMockJetpack.QRCodeScannerContent
 import com.example.fnvMockJetpack.ViewModels.ProcurementViewmodel
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 
@@ -137,7 +138,20 @@ fun MyApp() {
         composable("Procurement") {
             ProcurementScreen(navController, selectedSku, selectedSupplier)
         }
-
+        composable("QRCodeScanner") {
+            QRCodeScannerContent()
+        }
+        composable("DataEntryScreen") {
+            DataEntryScreen(
+                crateId = "crateID",
+                timestamp = "",
+                supplier = "",
+                Sku = ""
+            )
+        }
+        composable("SupplierSummaryScreen") {
+            SupplierSummaryScreen("Supplier 1","25","250","3")
+        }
         composable("Screen2/{arg}", arguments = listOf(navArgument("arg") { type = NavType.StringType }))
         { backStackEntry ->
               val screen = backStackEntry.arguments?.getString("arg")
