@@ -26,17 +26,24 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.fnvMockJetpack.QRCodeScannerActivity
 import com.example.fnvMockJetpack.ViewModels.ProcurementViewmodel
-import com.example.fnvMockJetpack.components.Spinner
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
+
 @Composable
-fun ProcurementScreen(navController: NavHostController, selectedsku: String) {
+fun ProcurementScreen(
+    navController: NavHostController, selectedsku: String, selectedsupplier: String,
+) {
+
     val viewModel: ProcurementViewmodel = viewModel()
     viewModel.loadsupplier()
     viewModel.loadsku()
-    Log.d(TAG, "ProcurementScreen: "+selectedsku)
+    Log.d(TAG, "selected sku: "+selectedsku)
+    Log.d(TAG, "selected supplier: "+selectedsupplier)
+
     var selectedItem by remember { mutableStateOf("") }
     var searchExpanded by remember { mutableStateOf(false) }
     var itemSelected by remember { mutableStateOf(false) }
+    var isSupplierSearch by remember { mutableStateOf(false) }
+    var isSkuSearch by remember { mutableStateOf(false) }
     FnvMockJetpackTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -45,12 +52,31 @@ fun ProcurementScreen(navController: NavHostController, selectedsku: String) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spinner(
-                    spinnerName = "Supplier",
-                    spinnerList = viewModel.supplierlist.value,
-                    selectedItem = viewModel.selectedSupplier.value,
-                    onItemSelected = { viewModel.onsupplierselected(it) }
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "Supplier" + "\n" + selectedsupplier,
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    IconButton(
+                        onClick = {  navController.navigate("Screen2/supplier")
+                                 isSupplierSearch=true
+                                  isSkuSearch=false}, // TODO: pass onclick event
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search",
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -70,7 +96,8 @@ fun ProcurementScreen(navController: NavHostController, selectedsku: String) {
                         fontWeight = FontWeight.Bold,
                     )
                     IconButton(
-                        onClick = {  navController.navigate("Screen2/hello")  }, // TODO: pass onclick event
+                        onClick = {  navController.navigate("Screen2/sku")
+                          }, // TODO: pass onclick event
                         modifier = Modifier.size(48.dp)
                     ) {
                         Icon(
@@ -79,11 +106,12 @@ fun ProcurementScreen(navController: NavHostController, selectedsku: String) {
                         )
                     }
                 }
-              /*  if(clickeda)
-                {
+//
+                /*  if(clickeda)
+                  {
 
-                }
-*/
+                  }
+  */
                 Button(
                     onClick = { viewModel.onCompleteButtonClicked() },
                     colors = ButtonDefaults.buttonColors(Color.Black),
@@ -116,21 +144,38 @@ fun ProcurementScreenPreview() {
 @Composable
 fun MyApp() {
     var selectedsku by remember { mutableStateOf("") }
-
+    var selectedsupplier by remember { mutableStateOf("") }
+    var s=""
     val navController = rememberNavController()
+    var isSupplierSearch by remember { mutableStateOf(false) }
+    var isSkuSearch by remember { mutableStateOf(false) }
     NavHost(
         navController = navController,
         startDestination = "Pricurement"
     ) {
         composable("Pricurement") {
-            ProcurementScreen(navController,selectedsku)
+            ProcurementScreen(navController,selectedsku,selectedsupplier)
         }
           composable(
                 "Screen2/{arg}",
-        arguments = listOf(navArgument("arg") { type = NavType.StringType })
+
+        arguments = listOf(navArgument("arg") { type = NavType.StringType }
+        ,)
         ) { backStackEntry ->
-        SkuSearchScreen(navController = navController, onItemSelected = { selectedsku = it })
-              Log.d(TAG, "MyApp: $selectedsku")
+              val screen = backStackEntry.arguments?.getString("arg")
+              if(screen=="sku"){
+                  var items= listOf("sku 1", "sku 2", "sku 3")
+
+                  SkuSearchScreen(navController = navController, { selectedsku = it }, items)
+                  Log.d(TAG, "MyApp: $selectedsku")
+              }
+              else
+              {
+                   var items= listOf("supplier 1", "supplier 2", "supplier 3")
+                  SkuSearchScreen(navController = navController,{ selectedsupplier = it },items)
+              }
+
+
     }
     }
 }

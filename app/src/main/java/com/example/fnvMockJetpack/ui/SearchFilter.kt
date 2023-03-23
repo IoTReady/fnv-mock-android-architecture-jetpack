@@ -12,20 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
-import androidx.navigation.NavType
-
-import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 
 @Composable
 fun SearchFilter(
-    searchBarName : String,
-    selectedItem : String
+    searchBarName: String,
+    selectedItem: String,
+    onClick: () -> Unit
 ) {
     var clickeda by remember { mutableStateOf(false) }
 
@@ -43,7 +37,7 @@ fun SearchFilter(
             fontWeight = FontWeight.Bold,
         )
         IconButton(
-            onClick = {  }, // TODO: pass onclick event
+            onClick = { onClick }, // TODO: pass onclick event
             modifier = Modifier.size(48.dp)
         ) {
             Icon(

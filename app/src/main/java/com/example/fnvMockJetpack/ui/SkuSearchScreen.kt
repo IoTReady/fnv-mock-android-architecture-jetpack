@@ -7,14 +7,17 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.example.fnvMockJetpack.components.SearchBarFilter
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 
 @Composable
-fun SkuSearchScreen(navController: NavHostController, onItemSelected: (String) -> Unit) {
+fun SkuSearchScreen(
+    navController: NavHostController,
+    onItemSelected: (String) -> Unit,
+    items: List<String>,
+
+    ) {
     var selectedItem by remember { mutableStateOf("") }
     var searchExpanded by remember { mutableStateOf(false) }
     FnvMockJetpackTheme {
@@ -23,8 +26,11 @@ fun SkuSearchScreen(navController: NavHostController, onItemSelected: (String) -
 
             color = MaterialTheme.colorScheme.background
         ) {
+            var listitems= items
+
+
             SearchBarFilter(
-                items = listOf("SKU 1", "SKU 2", "SKU 3"),
+                items = listitems,
                 onItemSelected = {
                     selectedItem = it
                     searchExpanded = false
