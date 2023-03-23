@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fnvMockJetpack.ViewModels.ProcurementViewmodel
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 import java.text.SimpleDateFormat
 import java.util.*
@@ -25,7 +27,9 @@ import java.util.*
         Sku : String
 
     ) {
-        Column(
+    val viewModel: ProcurementViewmodel = viewModel()
+
+    Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center

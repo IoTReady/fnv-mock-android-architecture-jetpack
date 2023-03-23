@@ -1,8 +1,10 @@
 package com.example.fnvMockJetpack
 
 import android.Manifest
+import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.util.Size
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -24,6 +26,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.fnvMockJetpack.ViewModels.ProcurementViewmodel
 import com.example.fnvMockJetpack.ui.DataEntryScreen
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 
@@ -34,6 +39,7 @@ class QRCodeScannerActivity : ComponentActivity() {
         setContent {
             FnvMockJetpackTheme() {
                 var crateID by remember {
+
                     mutableStateOf("")
                 }
                 val context = LocalContext.current
@@ -83,6 +89,7 @@ class QRCodeScannerActivity : ComponentActivity() {
                                     ContextCompat.getMainExecutor(context),
                                     QRCodeAnalyzer { result ->
                                         crateID = result
+                                        Log.d("AG", "onCreate: "+result)
                                     }
                                 )
                                 try {
@@ -100,6 +107,11 @@ class QRCodeScannerActivity : ComponentActivity() {
                             modifier = Modifier.weight(1f)
                         )
                         if (crateID.isNotEmpty()) {
+                            val viewModel: ProcurementViewmodel = viewModel()
+
+
+
+                            // Log.d(TAG, "onCreateofqrcode: "+viewModel.supplier.value)
                             cameraProviderFuture.get().unbindAll()
                             FnvMockJetpackTheme() {
                                 Surface(
@@ -109,8 +121,8 @@ class QRCodeScannerActivity : ComponentActivity() {
                                     DataEntryScreen(
                                         crateId = crateID,
                                         timestamp = "",
-                                        supplier = "",
-                                        Sku = ""
+                                        supplier = viewModel.selectedsupplier.value.toString(),
+                                        Sku = viewModel.selectedsku.value.toString()
                                     )
                                 }
                             }

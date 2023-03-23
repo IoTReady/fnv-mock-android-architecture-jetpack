@@ -26,11 +26,10 @@ fun SkuSearchScreen(
 
             color = MaterialTheme.colorScheme.background
         ) {
-            var listitems= items
 
 
             SearchBarFilter(
-                items = listitems,
+                items = items,
                 onItemSelected = {
                     selectedItem = it
                     searchExpanded = false

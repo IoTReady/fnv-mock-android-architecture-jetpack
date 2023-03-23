@@ -36,6 +36,7 @@ fun ProcurementScreen(
     val viewModel: ProcurementViewmodel = viewModel()
     viewModel.loadsupplier()
     viewModel.loadsku()
+
     Log.d(TAG, "selected sku: "+selectedsku)
     Log.d(TAG, "selected supplier: "+selectedsupplier)
 
@@ -144,6 +145,10 @@ fun ProcurementScreenPreview() {
 
 @Composable
 fun MyApp() {
+    val viewModel: ProcurementViewmodel = viewModel()
+
+    viewModel.loadsupplier()
+    viewModel.loadsku()
     var selectedsku by remember { mutableStateOf("") }
     var selectedsupplier by remember { mutableStateOf("") }
     var s=""
@@ -165,15 +170,21 @@ fun MyApp() {
         ) { backStackEntry ->
               val screen = backStackEntry.arguments?.getString("arg")
               if(screen=="sku"){
-                  var items= listOf("sku 1", "sku 2", "sku 3")
+                  var items= viewModel.Skulist.value
 
                   SkuSearchScreen(navController = navController, { selectedsku = it }, items)
                   Log.d(TAG, "MyApp: $selectedsku")
+                  viewModel.setSku(selectedsku)
+                  Log.d(TAG, "MyAppselectedsku: "+viewModel.selectedsku.value.toString())
               }
               else
               {
-                   var items= listOf("supplier 1", "supplier 2", "supplier 3")
+                   var items= viewModel.supplierlist.value
                   SkuSearchScreen(navController = navController,{ selectedsupplier = it },items)
+                  viewModel.setSuppier(selectedsupplier)
+                  Log.d(TAG, "selected Supplier in app: "+viewModel.selectedsupplier.value.toString())
+
+
               }
 
 
