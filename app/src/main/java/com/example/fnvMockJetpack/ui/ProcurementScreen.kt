@@ -75,7 +75,6 @@ fun ProcurementScreen(
                             imageVector = Icons.Default.Search,
                             contentDescription = "Search",
                         )
-                        viewModel.onCompleteButtonClicked()
                     }
                 }
 
@@ -130,6 +129,7 @@ fun ProcurementScreen(
                             QRCodeScannerActivity::class.java
                         )
                     )
+                    viewModel.onCompleteButtonClicked()
                 }
             }
         }
