@@ -26,97 +26,100 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.example.fnvMockJetpack.ui.DataEntryScreen
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
+@Composable
+fun QRCodeScannerContent() {
+    var crateID by remember {
+        mutableStateOf("")
+    }
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val cameraProviderFuture = remember {
+        ProcessCameraProvider.getInstance(context)
+    }
+    var hasCamPermission by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = { granted ->
+            hasCamPermission = granted
+        }
+    )
+    LaunchedEffect(key1 = true) {
+        launcher.launch(Manifest.permission.CAMERA)
+    }
+    Column(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        if (hasCamPermission) {
+            AndroidView(
+                factory = { context ->
+                    val previewView = PreviewView(context)
+                    val preview = Preview.Builder().build()
+                    val selector = CameraSelector.Builder()
+                        .requireLensFacing(CameraSelector.LENS_FACING_BACK)
+                        .build()
+                    preview.setSurfaceProvider(previewView.surfaceProvider)
+                    val imageAnalysis = ImageAnalysis.Builder()
+                        .setTargetResolution(
+                            Size(
+                                previewView.width,
+                                previewView.height
+                            )
+                        )
+                        .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
+                        .build()
+                    imageAnalysis.setAnalyzer(
+                        ContextCompat.getMainExecutor(context),
+                        QRCodeAnalyzer { result ->
+                            crateID = result
+                        }
+                    )
+                    try {
+                        cameraProviderFuture.get().bindToLifecycle(
+                            lifecycleOwner,
+                            selector,
+                            preview,
+                            imageAnalysis
+                        )
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+                    previewView
+                },
+                modifier = Modifier.weight(1f)
+            )
+            if (crateID.isNotEmpty()) {
+                cameraProviderFuture.get().unbindAll()
+                FnvMockJetpackTheme() {
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        DataEntryScreen(
+                            crateId = crateID,
+                            timestamp = "",
+                            supplier = "",
+                            Sku = ""
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
 
 class QRCodeScannerActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FnvMockJetpackTheme() {
-                var crateID by remember {
-                    mutableStateOf("")
-                }
-                val context = LocalContext.current
-                val lifecycleOwner = LocalLifecycleOwner.current
-                val cameraProviderFuture = remember {
-                    ProcessCameraProvider.getInstance(context)
-                }
-                var hasCamPermission by remember {
-                    mutableStateOf(
-                        ContextCompat.checkSelfPermission(
-                            context,
-                            Manifest.permission.CAMERA
-                        ) == PackageManager.PERMISSION_GRANTED
-                    )
-                }
-                val launcher = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.RequestPermission(),
-                    onResult = { granted ->
-                        hasCamPermission = granted
-                    }
-                )
-                LaunchedEffect(key1 = true) {
-                    launcher.launch(Manifest.permission.CAMERA)
-                }
-                Column(
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    if (hasCamPermission) {
-                        AndroidView(
-                            factory = { context ->
-                                val previewView = PreviewView(context)
-                                val preview = Preview.Builder().build()
-                                val selector = CameraSelector.Builder()
-                                    .requireLensFacing(CameraSelector.LENS_FACING_BACK)
-                                    .build()
-                                preview.setSurfaceProvider(previewView.surfaceProvider)
-                                val imageAnalysis = ImageAnalysis.Builder()
-                                    .setTargetResolution(
-                                        Size(
-                                            previewView.width,
-                                            previewView.height
-                                        )
-                                    )
-                                    .setBackpressureStrategy(STRATEGY_KEEP_ONLY_LATEST)
-                                    .build()
-                                imageAnalysis.setAnalyzer(
-                                    ContextCompat.getMainExecutor(context),
-                                    QRCodeAnalyzer { result ->
-                                        crateID = result
-                                    }
-                                )
-                                try {
-                                    cameraProviderFuture.get().bindToLifecycle(
-                                        lifecycleOwner,
-                                        selector,
-                                        preview,
-                                        imageAnalysis
-                                    )
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
-                                }
-                                previewView
-                            },
-                            modifier = Modifier.weight(1f)
-                        )
-                        if (crateID.isNotEmpty()) {
-                            cameraProviderFuture.get().unbindAll()
-                            FnvMockJetpackTheme() {
-                                Surface(
-                                    modifier = Modifier.fillMaxSize(),
-                                    color = MaterialTheme.colorScheme.background
-                                ) {
-                                    DataEntryScreen(
-                                        crateId = crateID,
-                                        timestamp = "",
-                                        supplier = "",
-                                        Sku = ""
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
+                QRCodeScannerContent()
             }
         }
     }

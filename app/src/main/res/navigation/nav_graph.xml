@@ -1,0 +1,23 @@
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/procurementScreen">
+
+    <fragment android:id="@+id/procurementScreen"
+        android:name="com.example.myapp.ProcurementScreen"
+        android:label="Procurement Screen">
+        <action android:id="@+id/action_procurement_to_dataentry"
+            app:destination="@id/dataEntryScreen"/>
+    </fragment>
+
+    <fragment android:id="@+id/dataEntryScreen"
+        android:name="com.example.myapp.DataEntryScreen"
+        android:label="Data Entry Screen">
+        <action android:id="@+id/action_dataentry_to_supplier"
+            app:destination="@id/supplierSummaryScreen"/>
+    </fragment>
+
+    <fragment android:id="@+id/supplierSummaryScreen"
+        android:name="com.example.myapp.SupplierSummaryScreen"
+        android:label="Supplier Summary Screen"/>
+
+</navigation>
