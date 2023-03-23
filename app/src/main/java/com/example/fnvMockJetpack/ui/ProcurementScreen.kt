@@ -146,10 +146,7 @@ fun ProcurementScreenPreview() {
 fun MyApp() {
     var selectedsku by remember { mutableStateOf("") }
     var selectedsupplier by remember { mutableStateOf("") }
-    var s=""
     val navController = rememberNavController()
-    var isSupplierSearch by remember { mutableStateOf(false) }
-    var isSkuSearch by remember { mutableStateOf(false) }
     NavHost(
         navController = navController,
         startDestination = "Pricurement"
@@ -157,27 +154,19 @@ fun MyApp() {
         composable("Pricurement") {
             ProcurementScreen(navController,selectedsku,selectedsupplier)
         }
-          composable(
-                "Screen2/{arg}",
-
-        arguments = listOf(navArgument("arg") { type = NavType.StringType }
-        ,)
+          composable("Screen2/{arg}",
+                    arguments = listOf(navArgument("arg") { type = NavType.StringType })
         ) { backStackEntry ->
               val screen = backStackEntry.arguments?.getString("arg")
-              if(screen=="sku"){
-                  var items= listOf("sku 1", "sku 2", "sku 3")
-
+              if(screen == "sku"){
+                  val items= listOf("sku 1", "sku 2", "sku 3")
                   SkuSearchScreen(navController = navController, { selectedsku = it }, items)
-                  Log.d(TAG, "MyApp: $selectedsku")
               }
-              else
-              {
-                   var items= listOf("supplier 1", "supplier 2", "supplier 3")
+              else {
+                  val items= listOf("supplier 1", "supplier 2", "supplier 3")
                   SkuSearchScreen(navController = navController,{ selectedsupplier = it },items)
               }
-
-
-    }
+        }
     }
 }
 
