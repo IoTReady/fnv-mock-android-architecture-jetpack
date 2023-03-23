@@ -1,7 +1,8 @@
 package com.example.fnvMockJetpack.ui
 
+import android.content.ContentValues.TAG
 import android.content.Intent
-import androidx.compose.animation.Crossfade
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -17,108 +18,118 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.fnvMockJetpack.QRCodeScannerActivity
 import com.example.fnvMockJetpack.ViewModels.ProcurementViewmodel
-import com.example.fnvMockJetpack.components.SearchBarFilter
-import com.example.fnvMockJetpack.components.SpinnerScreen
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
+
 @Composable
-fun ProcurementScreen() {
+fun ProcurementScreen(
+    navController: NavHostController, selectedsku: String, selectedsupplier: String,
+) {
+
     val viewModel: ProcurementViewmodel = viewModel()
     viewModel.loadsupplier()
     viewModel.loadsku()
+    Log.d(TAG, "selected sku: "+selectedsku)
+    Log.d(TAG, "selected supplier: "+selectedsupplier)
+
     var selectedItem by remember { mutableStateOf("") }
     var searchExpanded by remember { mutableStateOf(false) }
-    var itemSelected by remember { mutableStateOf(false)}
+    var itemSelected by remember { mutableStateOf(false) }
+    var isSupplierSearch by remember { mutableStateOf(false) }
+    var isSkuSearch by remember { mutableStateOf(false) }
     FnvMockJetpackTheme {
-        FnvMockJetpackTheme {
-            Surface(
-                modifier = Modifier.fillMaxSize(),
-                color = MaterialTheme.colorScheme.background
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(modifier = Modifier.padding(),
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-                    SpinnerScreen(
-                        spinnerName = "Supplier",
-                        spinnerList = viewModel.supplierlist.value,
-                        selectedItem = viewModel.selectedSupplier.value,
-                        onItemSelected = { viewModel.onsupplierselected(it) }
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "Supplier" + "\n" + selectedsupplier,
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.Bold,
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 8.dp),
-
-                        ) {
-                        Crossfade(targetState = searchExpanded) { expanded ->
-                            if (expanded) {
-                                SearchBarFilter(
-                                    items = listOf("SKU 1", "SKU 2", "SKU 3"),
-                                    onItemSelected = {
-                                        selectedItem = it
-                                        searchExpanded = false
-                                    }
-                                )
-                            } else {
-                                Row(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    horizontalArrangement = Arrangement.Center,
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        modifier = Modifier.weight(1f),
-                                        text = "SKU\n"+selectedItem,
-                                        textAlign = TextAlign.Center,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                    Box(
-                                        modifier = Modifier
-                                            .weight(1f)
-                                            .padding(start = 8.dp)
-                                    ) {
-                                        IconButton(
-                                            onClick = { searchExpanded = true
-                                                itemSelected = true },
-                                            modifier = Modifier.size(48.dp)
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.Search,
-                                                contentDescription = "Search",
-                                            )
-                                        }
-                                        if (selectedItem.isNotBlank() && itemSelected) {
-                                            Text(
-                                                text = "",
-                                                modifier = Modifier.padding(start = 8.dp)
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    Button(
-                        onClick = { viewModel.onCompleteButtonClicked() },
-                        colors = ButtonDefaults.buttonColors(Color.Black),
-                        shape = RectangleShape,
-                        modifier = Modifier
-                            .padding(16.dp)
+                    IconButton(
+                        onClick = {  navController.navigate("Screen2/supplier")
+                                 isSupplierSearch=true
+                                  isSkuSearch=false}, // TODO: pass onclick event
+                        modifier = Modifier.size(48.dp)
                     ) {
-                        Text(text = "Scan Item")
-                    }
-
-                    if (viewModel.completebuttonClicked.value) {
-                        val context = LocalContext.current
-                        context.startActivity(
-                            Intent(
-                                context,
-                                QRCodeScannerActivity::class.java
-                            )
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search",
                         )
                         viewModel.onCompleteButtonClicked()
                     }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                var clickeda by remember { mutableStateOf(false) }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        modifier = Modifier.weight(1f),
+                        text = "SKU" + "\n" + selectedsku,
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.Bold,
+                    )
+                    IconButton(
+                        onClick = {  navController.navigate("Screen2/sku")
+                          }, // TODO: pass onclick event
+                        modifier = Modifier.size(48.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search",
+                        )
+                    }
+                }
+//
+                /*  if(clickeda)
+                  {
+
+                  }
+  */
+                Button(
+                    onClick = { viewModel.onCompleteButtonClicked() },
+                    colors = ButtonDefaults.buttonColors(Color.Black),
+                    shape = RectangleShape,
+                    modifier = Modifier
+                        .padding(16.dp)
+                ) {
+                    Text(text = "Scan Item")
+                }
+                if (viewModel.completebuttonClicked.value) {
+                    val context = LocalContext.current
+                    context.startActivity(
+                        Intent(
+                            context,
+                            QRCodeScannerActivity::class.java
+                        )
+                    )
                 }
             }
         }
@@ -127,6 +138,49 @@ fun ProcurementScreen() {
 @Preview(showBackground = true, showSystemUi = false)
 @Composable
 fun ProcurementScreenPreview() {
-    ProcurementScreen()
+  //  ProcurementScreen(navController = NavHostController)
 }
+
+
+@Composable
+fun MyApp() {
+    var selectedsku by remember { mutableStateOf("") }
+    var selectedsupplier by remember { mutableStateOf("") }
+    var s=""
+    val navController = rememberNavController()
+    var isSupplierSearch by remember { mutableStateOf(false) }
+    var isSkuSearch by remember { mutableStateOf(false) }
+    NavHost(
+        navController = navController,
+        startDestination = "Pricurement"
+    ) {
+        composable("Pricurement") {
+            ProcurementScreen(navController,selectedsku,selectedsupplier)
+        }
+          composable(
+                "Screen2/{arg}",
+
+        arguments = listOf(navArgument("arg") { type = NavType.StringType }
+        ,)
+        ) { backStackEntry ->
+              val screen = backStackEntry.arguments?.getString("arg")
+              if(screen=="sku"){
+                  var items= listOf("sku 1", "sku 2", "sku 3")
+
+                  SkuSearchScreen(navController = navController, { selectedsku = it }, items)
+                  Log.d(TAG, "MyApp: $selectedsku")
+              }
+              else
+              {
+                   var items= listOf("supplier 1", "supplier 2", "supplier 3")
+                  SkuSearchScreen(navController = navController,{ selectedsupplier = it },items)
+              }
+
+
+    }
+    }
+}
+
+
+
 

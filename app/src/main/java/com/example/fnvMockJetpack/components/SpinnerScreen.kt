@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.fnvMockJetpack.ui.theme.FnvMockJetpackTheme
 
 @Composable
-fun SpinnerScreen(
+fun Spinner(
     spinnerName: String,
     spinnerList: List<String>,
     selectedItem : String,
@@ -94,6 +94,6 @@ fun DefaultPreview2() {
         var selectedName by rememberSaveable() {
             mutableStateOf("")
         }
-        SpinnerScreen("Warehouse", spinnerList=names, selectedItem =selectedName) { selectedName = it }
+        Spinner("Warehouse", spinnerList=names, selectedItem =selectedName) { selectedName = it }
     }
 }
